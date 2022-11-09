@@ -49,7 +49,7 @@ module Gerry
       end
 
       def delete(url)
-        self.class.delete(auth_url(url))
+        response = self.class.delete(auth_url(url))
         parse(response)
       end
 
@@ -59,17 +59,15 @@ module Gerry
         unless /2[0-9][0-9]/.match(response.code.to_s)
           raise_request_error(response)
         end
-        unless response.body.size.zero?
-          source = remove_magic_prefix(response.body)
-          if source.lines.count == 1 && !source.start_with?('{') && !source.start_with?('[')
-            # Work around the JSON gem not being able to parse top-level values, see
-            # https://github.com/flori/json/issues/206.
-            source.gsub!(/^"|"$/, '')
-          else
-            JSON.parse(source)
-          end
+        return nil if !response.body || response.body.size.zero?
+
+        source = remove_magic_prefix(response.body)
+        if source.lines.count == 1 && !source.start_with?('{') && !source.start_with?('[')
+          # Work around the JSON gem not being able to parse top-level values, see
+          # https://github.com/flori/json/issues/206.
+          source.gsub!(/^"|"$/, '')
         else
-          nil
+          JSON.parse(source)
         end
       end
 
