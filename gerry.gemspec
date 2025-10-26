@@ -2,14 +2,14 @@ $LOAD_PATH.unshift 'lib'
 require 'gerry/version'
 
 Gem::Specification.new do |s|
-  s.name              = 'gerry'
+  s.name              = 'audc-gerry'
   s.version           = Gerry::VERSION
   s.date              = Time.now.strftime('%Y-%m-%d')
   s.summary           = 'Simple Ruby wrapper for the Gerrit Code Review REST-API.'
-  s.homepage          = 'http://github.com/trumant/gerry'
-  s.email             = 'trumant@gmail.com'
-  s.authors           = ['Fabian Mettler', 'Andrew Erickson', 'Travis Truman', 'Sebastian Schuberth', 'Orgad Shaneh',
-                         'iiithking']
+  s.homepage          = 'https://github.com/orgads/gerry'
+  s.email             = 'orgads@gmail.com'
+  s.authors           = ['Fabian Mettler', 'Andrew Erickson', 'Travis Truman', 'Sebastian Schuberth',
+                         'Orgad Shaneh', 'iiithking']
 
   s.files             = %w[README.md Rakefile]
   s.files            += Dir.glob('lib/**/*')

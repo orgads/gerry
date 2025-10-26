@@ -1,7 +1,7 @@
 PATH
   remote: .
   specs:
-    gerry (0.1.7)
+    audc-gerry (0.1.8)
       httparty (~> 0.23.2)
 
 GEM
@@ -98,7 +98,7 @@ PLATFORMS
   x64-mingw32
 
 DEPENDENCIES
-  gerry!
+  audc-gerry!
   guard (~> 2.19.1)
   guard-rspec (~> 4.7.3)
   netrc
