@@ -18,7 +18,7 @@ Gem::Specification.new do |s|
 
   s.required_ruby_version = '>= 2.7.0'
 
-  s.description       = <<DESC
+  s.description = <<DESC
   Simple Ruby wrapper for the Gerrit Code Review REST-API.
 DESC
 

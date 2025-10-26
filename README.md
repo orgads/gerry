@@ -1,12 +1,6 @@
-# gerry[![Build Status](https://travis-ci.org/trumant/gerry.svg)][travis]
-
-Base Gerrit Version V2.14.6
-
 Simple Ruby wrapper for the Gerrit Code Review REST-API.
 
 ![Gary from spongebob square pants](http://en.spongepedia.org/images/3/37/Garry.jpg)
-
-[travis]: https://travis-ci.org/trumant/gerry
 
 ## Documentation
 [http://rdoc.info/github/trumant/gerry][documentation]
@@ -40,10 +34,6 @@ client = Gerry.new('https://review')
 client.changes(['q=is:open'])
 => [{"project"=>"awesome", "branch"=>"master", "id"=>"Ibfedd978...."}]
 ```
-
-### Authentication type
-Since 2.14, Gerrit no longer supports digest authentication.
-Gerry uses basic authentication against gerrit.
 
 ## Licence
 The MIT Licence
