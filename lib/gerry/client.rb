@@ -1,7 +1,8 @@
 # frozen_string_literal: true
 
-require 'httparty'
 require 'json'
+require 'net/http'
+require 'uri'
 
 require_relative 'api/access'
 require_relative 'api/accounts'
@@ -24,9 +25,6 @@ module Gerry
   #   
   
   class Client
-    include HTTParty
-    headers 'Accept' => 'application/json'
-
     include Api::Access
     include Api::Accounts
     include Api::Changes
@@ -40,7 +38,7 @@ module Gerry
     end
 
     def initialize(url, username = nil, password = nil)
-      self.class.base_uri(url)
+      @base_uri = url
 
       if username && password
         @username = username
@@ -48,9 +46,6 @@ module Gerry
       else
         require 'netrc'
         @username, @password = Netrc.read[URI.parse(url).host]
-      end
-      if @username && @password
-        self.class.basic_auth(@username, @password)
       end
     end
   end

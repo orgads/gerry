@@ -18,42 +18,56 @@ module Gerry
         end
       end
 
-      def options(body = nil, is_json = true)
-        return {} unless body
-        default_options = {
-          headers: {
-            'Content-Type' => is_json ? 'application/json' : 'text/plain'
-          }
-        }
-        default_options[:body] = is_json ? body.to_json : body
-        default_options
-      end
-
       def get(url)
-        response = self.class.get(auth_url(url))
+        response = perform_request(:get, auth_url(url))
         parse(response)
       end
 
       def auth_url(url)
-        self.class.default_options[:basic_auth] ? "/a#{url}" : url
+        (@username && @password) ? "/a#{url}" : url
       end
 
       def put(url, body = nil, is_json = true)
-        response = self.class.put(auth_url(url), options(body, is_json))
+        response = perform_request(:put, auth_url(url), body, is_json)
         parse(response)
       end
 
       def post(url, body, is_json = true)
-        response = self.class.post(auth_url(url), options(body, is_json))
+        response = perform_request(:post, auth_url(url), body, is_json)
         parse(response)
       end
 
       def delete(url)
-        response = self.class.delete(auth_url(url))
+        response = perform_request(:delete, auth_url(url))
         parse(response)
       end
 
       private
+
+      def perform_request(method, url, body = nil, is_json = true)
+        uri = URI.parse("#{@base_uri}#{url}")
+        http = Net::HTTP.new(uri.host, uri.port)
+        http.use_ssl = (uri.scheme == 'https')
+
+        req_class = {
+          get: Net::HTTP::Get,
+          put: Net::HTTP::Put,
+          post: Net::HTTP::Post,
+          delete: Net::HTTP::Delete
+        }[method]
+
+        req = req_class.new(uri.request_uri)
+        req['Accept'] = 'application/json'
+
+        if body
+          req['Content-Type'] = is_json ? 'application/json' : 'text/plain'
+          req.body = is_json ? body.to_json : body
+        end
+
+        req.basic_auth(@username, @password) if @username && @password
+
+        http.request(req)
+      end
 
       def parse(response)
         unless /2[0-9][0-9]/.match(response.code.to_s)

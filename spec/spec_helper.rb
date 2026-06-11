@@ -1,7 +1,7 @@
 require "rspec/expectations"
 require 'webmock/rspec'
 
-require_relative '../lib/gerry'
+require_relative '../lib/audc-gerry'
 
 class MockGerry < Gerry::Client
   URL = 'http://localhost'

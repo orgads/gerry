@@ -22,7 +22,6 @@ Gem::Specification.new do |s|
   Simple Ruby wrapper for the Gerrit Code Review REST-API.
 DESC
 
-  s.add_runtime_dependency      'httparty', '~> 0.23.2'
 
   s.add_development_dependency  'guard', '~> 2.19.1'
   s.add_development_dependency  'guard-rspec', '~> 4.7.3'
