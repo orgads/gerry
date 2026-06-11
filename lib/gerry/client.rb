@@ -33,6 +33,8 @@ module Gerry
     include Api::Branches
     include Api::Request
 
+    attr_reader :base_uri
+
     def set_auth_type(auth_type)
       warn 'set_auth_type is deprecated. digest auth is no longer supported'
     end
