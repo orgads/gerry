@@ -41,6 +41,21 @@ describe '.changes' do
     expect(changes[2]['owner']['name']).to eq('Bill')
   end
 
+  it 'should keep repeated options while fetching batches' do
+    stub_batch_0 = stub_get('/changes/?o=CURRENT_REVISION&o=LABELS', 'changes_batch_0.json')
+    stub_batch_1 = stub_get('/changes/?o=CURRENT_REVISION&o=LABELS&S=1', 'changes_batch_1.json')
+    stub_batch_2 = stub_get('/changes/?o=CURRENT_REVISION&o=LABELS&S=2', 'changes_batch_2.json')
+
+    client = MockGerry.new
+    changes = client.changes(['o=CURRENT_REVISION', 'o=LABELS'])
+
+    expect(stub_batch_0).to have_been_requested
+    expect(stub_batch_1).to have_been_requested
+    expect(stub_batch_2).to have_been_requested
+
+    expect(changes.size).to eq(3)
+  end
+
   it 'should fetch all open changes' do
     stub = stub_get('/changes/?q=is:open+owner:self', 'open_changes.json')
 

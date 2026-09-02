@@ -8,6 +8,14 @@ describe '.map_options' do
 
     expect(options).to eq('q=createAccount&q=createGroup')
   end
+
+  it 'should repeat a hash option that has several values' do
+
+    client = MockGerry.new
+    options = client.map_options('o' => %w[CURRENT_REVISION LABELS], 'S' => ['0'])
+
+    expect(options).to eq('o=CURRENT_REVISION&o=LABELS&S=0')
+  end
 end
 
 describe '.get' do

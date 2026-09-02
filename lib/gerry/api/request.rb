@@ -14,7 +14,8 @@ module Gerry
         if options.is_a?(Array)
           options.map { |v| "#{v}" }.join('&')
         elsif options.is_a?(Hash)
-          options.map { |k,v| "#{k}=#{v.join(',')}" }.join('&')
+          # Gerrit expects repeated parameters (o=A&o=B), never a comma-joined list.
+          options.flat_map { |k, v| Array(v).map { |value| "#{k}=#{value}" } }.join('&')
         end
       end
 
